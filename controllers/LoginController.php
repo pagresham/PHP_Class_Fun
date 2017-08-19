@@ -5,10 +5,8 @@
 */
 class LoginController extends FormControl
 {
-	
 	// private $db; // handle to DB
 	private $currentUser; // is set once a user successfully logs in 
-
 
 	function __construct()
 	{
@@ -19,13 +17,6 @@ class LoginController extends FormControl
 	public function hello() {
 		print "<h1>Hello from LC</h1>";
 	}
-	// /**
-	//  * Call connect on db hook - Sets DBConn->db to an opeen mysqli connection
-	//  * @return [type] [description]
-	//  */
-	// public function connect() {
-	// 	$this->db->connect();
-	// }
 
 	// Tries to log in as passed user params
 	// Calls validateUser which calls verifyUser();
