@@ -1,0 +1,22 @@
+Connect Error:  08-18-2017 07:21:56 AM  Access denied for user 'tune_user'@'localhost' (using password: YES)
+
+Connect Error:  08-18-2017 07:23:35 AM  Access denied for user 'tune_user'@'localhost' (using password: YES)
+
+Connect Error:  08-18-2017 07:23:38 AM  Access denied for user 'tune_user'@'localhost' (using password: YES)
+
+Connect Error:  08-18-2017 07:52:25 AM  Access denied for user 'tune_user'@'localhost' (using password: YES)
+
+Connect Error:  08-18-2017 05:20:41 PM  Access denied for user 'exampleUser'@'localhost' (using password: YES)
+
+Connect Error:  08-18-2017 05:21:26 PM  Access denied for user 'exampleUser'@'localhost' (using password: YES)
+
+Connect Error:  08-18-2017 05:23:51 PM  Access denied for user 'exampleUser'@'localhost' (using password: YES)
+
+Connect Error:  08-18-2017 05:24:39 PM  Access denied for user 'exampleUser'@'localhost' (using password: YES)
+
+Error:  08-19-2017 05:38:32 AM  Access denied for user 'exampleUser'@'localhost' (using password: YES)
+
+Error:  08-19-2017 06:06:00 AM  Unknown column 'usernam' in 'where clause'
+
+Error:  08-19-2017 05:22:05 PM  Unknown column 'usernam' in 'where clause'
+
