@@ -3,7 +3,7 @@
  /**
 * 
 */
-abstract class FormControl
+abstract class Control
 {
 	protected $db;
 
@@ -16,7 +16,6 @@ abstract class FormControl
 
 	/**
 	 * Call connect on db hook - Sets DBConn->db to an opeen mysqli connection
-	 * @return [type] [description]
 	 */
 	public function connect() {
 		$this->db->connect();

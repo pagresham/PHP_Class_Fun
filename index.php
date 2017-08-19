@@ -5,7 +5,7 @@ session_start();
 $errorMsg = "";
 $successMsg = "";
 
-include "controllers/FormControl.php";
+include "controllers/Control.php";
 include "helperClasses/User.php";
 include "services/DBConnection.php";
 include "controllers/LoginController.php";
