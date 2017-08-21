@@ -1,12 +1,11 @@
 <?PHP
 
- /**
-* 
+/**
+* Control - Parent class of CreateUserController and LoginController 
 */
 abstract class Control
 {
 	public $db;
-
 	function __construct()
 	{
 		$this->db = new DBConnection();

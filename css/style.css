@@ -12,7 +12,6 @@ ul li:hover {
 }
 form div {
 	display: table-row;
-	/*margin-bottom: .25em;*/
 }
 form label, form input {
 	display: table-cell;

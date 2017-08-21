@@ -1,7 +1,7 @@
 <?PHP
 /**
  * DBConnection
- * A Service to the Controller 
+ * Contains methods for all the DB calls in the login app
  */
 class DBConnection {
 	private $db_host = "localhost";
@@ -11,41 +11,26 @@ class DBConnection {
 
 	private $db = null;
 
-
-	/**
-	 * Returns the $db that holds the connection to the DB
-	 * It is not guaranteed to be not null
-	 */
-	public function get_dbHook() {
-		return $this->db;
-	}
-
 	/**
 	 * Closes a connection to the DB, and reset this.db to null
 	 */
 	public function disconnect() {
-		// echo "<p>Closing DB connection @DBConnection::disconnect()</p>";
 		mysqli_close($this->db);
 		$this->db = null;
 	}
 
 	/**
-	 * Opens the connection with the DB, and sets $db to the connection 
+	 * Opens the connection with the DB, and sets $this->db to the connection 
 	 */
 	public function connect() {
-		// Below line, suppresses error messages to client, sql error is written to log instead
-		// error_reporting(E_ERROR);
-		
 		$con = new mysqli($this->db_host, $this->db_user, $this->db_passwd, $this->db_name);
 		
-		// check if conn isn't  true write errors to a log file //
-		if ($con->connect_error) {
-			$this->writeError($con->connect_error, 43);
-			return false;
-		} else {
-			// echo "<p>Successful DB connection @ DBConnection::connect()</p>";
+		if ($con) {
 			$this->db = $con;
 			return true;
+		} else {
+			$this->writeError($con->connect_error, 43);
+			return false;
 		}
 	}
 
@@ -58,39 +43,59 @@ class DBConnection {
 		$sql = "SELECT user_id, username, password 
 				FROM users WHERE
 				username = '$un'";
-
 		$rs = $this->db->query($sql);
-		
-		if (!$rs) {
-			$this->writeError(mysqli_error($this->db), 68);
-			return false;
-		}
-		
-		else if ( $rs->num_rows == 1) { // username is in the db -- check if pw match
+		if ($rs) {
+			if ( $rs->num_rows == 1) { // username is in the db -- check if pw match
+				$login_row = mysqli_fetch_assoc($rs);
+				if ($login_row) {
+					return password_verify($pw, $login_row['password']);
+				}
+			} 
+		} else $this->writeError(mysqli_error($this->db), 68); 
+		return false; // username not in db
+	}
 
-			$login_row = mysqli_fetch_assoc($rs);
-			
-			if ($login_row) {
-				return password_verify($pw, $login_row['password']);
+	/**
+	 * Checks if the username is already in the DB
+	 */
+	public function checkUserPresence($un) {
+		$sql = "SELECT username FROM users WHERE username = '$un'";
+		$rs = $this->db->query($sql);
+		if ($rs) {
+			if ($rs->num_rows == 0) {
+				return true;
 			}
-		} 
-		else return false; // username not in db
+		} else writeError($this->db->error, 84);
+		return false;
+	}
+
+	/**
+	 * Adds new user to the DB
+	 */
+	public function addNewUser($un, $em, $pw) {
+		$sql = "INSERT INTO users (username, email, password) 
+				VALUES('$un', '$em', '$pw')";
+		$rs = $this->db->query($sql);
+
+		if ($rs) {
+			return true;
+		} else {
+			$this->writeError($this->db->error, 93);
+			return false;
+		}		
 	}
 
 	/**
 	 * Generic method to record DB error messages to logs/errorLog.txt 
-	 * @param  $err - the error object t be displayed
+	 * @param  $err - the error to be displayed
 	 */
 	public function writeError($err, $line) {
-		echo "<p>Check Logs ". $line ."</p>";
 		$fp = fopen("logs/errorLog.txt", "a");
 		
-		if(!$fp) {
-			die("Log file not found");
-		} 
-		else {
+		if($fp) {
+			echo "<p>Check Logs ". $line ."</p>";
 			fwrite($fp, "Error:  " . date("m-d-Y h:i:s A") . "  ". $err . "\n\n");	
-		}
+		} 
 	}
 
 }

@@ -13,32 +13,21 @@ class LoginController extends Control
 		parent::__construct();
 	}
 
-	// Tries to log in as passed user params
-	// Calls validateUser which calls verifyUser();
-	// If successful, creates user and sets $currentUser
+
+	/**
+	 * Attempts to log in with passed params
+	 */
 	public function logInUser($un, $pw) {
 
-		if ($un == null || $pw == null || $un == "" || $pw == "") {
-			$_SESSION['errorMsg'] = "empty values";
-			e("Please Complete All Required Fields 33");
-			return false;
-		}
-		else {
+		if ($un != null && $pw != null && $un != "" && $pw != "") {
 			if ($this->validateUserInfo($un, $pw)) {
 				s("Successful Login");
 				return true;
-
-			} else {
-				// Have validateUserInfo() write its own message out to the view. 
-				// e("validateUser() needs to write this message");
-				return false;
-			} 
-			
-		}
+			}  
+		} else e("Please Complete All Required Fields");
+		return false;
 	}
 
-
-	
 	/**
 	 * logOutUser  
 	 */
@@ -46,15 +35,10 @@ class LoginController extends Control
 		$_SESSION['username'] = "";
 	}	
 
-	public function deleteAccount() {
-
-	}
-
 	/**
-	 * [validateUserInfo description]
-	 * @param  [type] $un [description]
-	 * @param  [type] $pw [description]
-	 * @return [type]     [description]
+	 * validateUserInfo - Checks if un is in db, if yes, checks hashed password
+	 * @param  $un - un passed in the post array
+	 * @param  $pw - pw passed in the post array
 	 */
 	public function validateUserInfo($un, $pw) {
 
@@ -63,7 +47,6 @@ class LoginController extends Control
 		$pw = trim($pw);
 		if ( $un == "" || $pw == "") {
 			$errors['username'] = "Please complete all fields 127";
-			// $this->writeErrMsg("Please complete all fields 128");
 		}
 			
 		// Do my form validation here //
@@ -86,7 +69,7 @@ class LoginController extends Control
 			}
 			else {
 				if(!$this->db->verifyUser($un, $pw)){
-					$this->db->get_dbHook()->close();
+					$this->db->disconnect();
 
 					e("Could not verify Login Information");
 					return false;
@@ -94,28 +77,12 @@ class LoginController extends Control
 					// Set Session vars and current user //
 					s("Successful Login");
 					$_SESSION['username'] = $un;
-					// $this->db->get_dbHook()->close();
 					$this->db->disconnect();
 					return true;
 				}
 			}
 		}
 	}
-
-	/**
-	 * Writes a message to the current View
-	 */
-	// public function writeErrMsg($msg) {
-	// 	print "<p style='color:red'>Error: " . $msg . "</p>";
-	// }
-	// public function writeSuccessMsg($msg) {
-	// 	print "<p style='color:green'>Success: " . $msg . "</p>";
-	// }
-
-
-
- // Q How to handle closing the $db connection whenuser if finished
- // Maybe, I open it, do what I need to do, and then close it right away?
 }
 
 ?>
