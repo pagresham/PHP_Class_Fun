@@ -10,12 +10,7 @@ class LoginController extends Control
 
 	function __construct()
 	{
-		// $this->db = new DBConnection();ssssddssss
 		parent::__construct();
-	}
-
-	public function hello() {
-		print "<h1>Hello from LC</h1>";
 	}
 
 	// Tries to log in as passed user params
@@ -25,16 +20,23 @@ class LoginController extends Control
 
 		if ($un == null || $pw == null || $un == "" || $pw == "") {
 			$_SESSION['errorMsg'] = "empty values";
-			$this->writeErrMsg("Please Complete All Required Fields 33");
+			e("Please Complete All Required Fields 33");
 			return false;
 		}
 		else {
 			if ($this->validateUserInfo($un, $pw)) {
-				$this->writeSuccessMsg("Successful Login");
+				s("Successful Login");
 				return true;
-			} else return false;
+
+			} else {
+				// Have validateUserInfo() write its own message out to the view. 
+				// e("validateUser() needs to write this message");
+				return false;
+			} 
+			
 		}
 	}
+
 
 	
 	/**
@@ -43,14 +45,6 @@ class LoginController extends Control
 	public function logOutUser($user) {
 		$_SESSION['username'] = "";
 	}	
-
-	
-
-
-	
-
-
-
 
 	public function deleteAccount() {
 
@@ -63,6 +57,7 @@ class LoginController extends Control
 	 * @return [type]     [description]
 	 */
 	public function validateUserInfo($un, $pw) {
+
 		$errors = [];
 		$un = trim($un);
 		$pw = trim($pw);
@@ -81,11 +76,9 @@ class LoginController extends Control
 		}
 
 		if(count($errors) > 0) { 
-
-			// method to write error message for Client goes here
-			$this->writeErrMsg(reset($errors));
-
+			e(reset($errors));
 			return false; 
+
 		} else {
 			// go to DB and check creds //
 			if (!$this->db->connect()) {
@@ -94,11 +87,12 @@ class LoginController extends Control
 			else {
 				if(!$this->db->verifyUser($un, $pw)){
 					$this->db->get_dbHook()->close();
-					$this->writeErrMsg("Could not verify Login Information");
+
+					e("Could not verify Login Information");
 					return false;
 				} else { // user is verified - There auth is good
 					// Set Session vars and current user //
-					$this->writeSuccessMsg("Successful Login");
+					s("Successful Login");
 					$_SESSION['username'] = $un;
 					// $this->db->get_dbHook()->close();
 					$this->db->disconnect();
@@ -111,12 +105,12 @@ class LoginController extends Control
 	/**
 	 * Writes a message to the current View
 	 */
-	public function writeErrMsg($msg) {
-		print "<p style='color:red'>Error: " . $msg . "</p>";
-	}
-	public function writeSuccessMsg($msg) {
-		print "<p style='color:green'>Success: " . $msg . "</p>";
-	}
+	// public function writeErrMsg($msg) {
+	// 	print "<p style='color:red'>Error: " . $msg . "</p>";
+	// }
+	// public function writeSuccessMsg($msg) {
+	// 	print "<p style='color:green'>Success: " . $msg . "</p>";
+	// }
 
 
 

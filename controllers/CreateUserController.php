@@ -8,11 +8,22 @@ class CreateUserController extends Control
 	
 	function __construct()
 	{
+		parent::__construct();
 		# code...
 	}
 
-	public function hello() {
-		print "<h1>Hello from CC</h1>";
+
+	public function validate($un, $pw, $em) {
+		if ( $un == null || $pw == null || $em == null) {
+			return false; // for null args
+		} 
+		if ( trim($un) == "" || trim($pw) == "" || trim($em) == "") {
+			return false; // for empty args
+		}
+		if ( strlen($un) > 45 || strlen($em) > 60 || strlen($pw) > 45 ) {
+			return false; // for too long args
+		}
+		return true;
 	}
 
 	/**
@@ -22,10 +33,21 @@ class CreateUserController extends Control
 	 * This method really belongs on the CreateAccountController
 	 */
 	public function createUserAccount($un, $pw, $em) {
-		if ( $un == null || $pw == null || $em == null) {
-			return; // handle this better //
+		// if($this->connect()) {
+		// 	print "True";
+		// } else print "False";
+
+		if (!$this->validate($un, $pw, $em)) {
+			return -1; // -1 for null or blank values
 		}
+
 		else {
+
+			// validate un
+			// if(!preg_match("/^[a-zA-Z0-9'-.@_]{8,}$/", $un) {
+
+			// }
+
 			if ( !$this->db->get_dbHook() == null) {
 				// get the hook
 				$hook = $this->db->get_dbHook();
@@ -37,6 +59,7 @@ class CreateUserController extends Control
 				if (!$rs) {
 					print "<h3>Check Logs LC 69</h3>";
 					$this->db->writeError($hook->error);
+					return -2; // -2 for db connection error;
 				}
 					
 				else {
@@ -44,10 +67,11 @@ class CreateUserController extends Control
 					if($rs->num_rows > 0) {
 						
 						echo "<h3>Username is already in use</h3>";
-						
-						// err to Client
+						return -3; // -3 for name in use
 						
 					} else {
+						
+
 						// Go to db with new user info
 						$hashedPassword = password_hash($pw, 1);
 						$sql = "INSERT INTO users 
@@ -62,6 +86,7 @@ class CreateUserController extends Control
 						} else {
 							// Success message to Client
 							print "<h3>Successful added user</h3>";
+							return true;
 						}
 					}
 				} // else 

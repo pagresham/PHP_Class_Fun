@@ -1,0 +1,23 @@
+ul li:hover {
+	/*background-color: red;*/
+	background-color: #ddd;
+	animation: hoverfade .5s 1;
+}
+@keyframes hoverfade {
+	from {
+		background-color: #eee;
+	} to {
+		background-color: #ddd;
+	}
+}
+form div {
+	display: table-row;
+	/*margin-bottom: .25em;*/
+}
+form label, form input {
+	display: table-cell;
+	margin-bottom: .5em;	
+}
+form input {
+	margin-left: 1em;
+}

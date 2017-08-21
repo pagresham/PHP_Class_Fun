@@ -5,20 +5,18 @@
 */
 abstract class Control
 {
-	protected $db;
+	public $db;
 
 	function __construct()
 	{
 		$this->db = new DBConnection();
 	}
 
-	public abstract function hello();
-
 	/**
 	 * Call connect on db hook - Sets DBConn->db to an opeen mysqli connection
 	 */
 	public function connect() {
-		$this->db->connect();
+		return $this->db->connect();
 	}
 }
 ?>

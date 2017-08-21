@@ -1,10 +1,8 @@
-<!DOCTYPE html>
-<html>
-<head>
-	<title>Successful Login</title>
-	<meta charset="utf-8">
-</head>
-<body>
-Successful Login!
+<?PHP
+include "header.php";
+?>
+
+	<h3>Success!</h3>
+</div> <!-- End .container -->
 </body>
 </html>
