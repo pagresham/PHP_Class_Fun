@@ -30,9 +30,8 @@ if (isset($_POST['logout'])) {
 					  <li><a href="elsewhere.php">Elsewhere</a></li>
 				    </ul>
 				    <ul class="nav navbar-nav navbar-right">
-				    <?PHP
-				    if (isset($_SESSION['username'])) {
-				    ?>
+				    <?PHP if (isset($_SESSION['username'])) { ?>
+
 						<li>
 				    		<form class="navbar-form" method="post" action="index.php">
 						      <button type="submit" name="logout" class="btn btn-default">LogOut</button>
@@ -40,9 +39,7 @@ if (isset($_POST['logout'])) {
 				    	</li>
 						<li><a>Welcome:  <?PHP echo " " . $_SESSION['username']; ?></a></li>
 
-				    <?PHP
-				    }
-				    ?>	
+				    <?PHP } ?>	
 				    </ul>
 				 </div>
 			</nav>			

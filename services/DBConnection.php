@@ -1,7 +1,6 @@
 <?PHP
 /**
- * DBConnection
- * Contains methods for all the DB calls in the login app
+ * DBConnection - Contains methods for all the DB calls in the login app
  */
 class DBConnection {
 	private $db_host = "localhost";

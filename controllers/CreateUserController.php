@@ -1,15 +1,12 @@
 <?PHP
-
 /**
-* CreateUserController
+* CreateUserController - Contains method to run the create user dialog 
 */
 class CreateUserController extends Control
 {
-	
 	function __construct()
 	{
 		parent::__construct();
-		# code...
 	}
 
 	/**

@@ -3,6 +3,9 @@
 session_start();
 $errorMsg =$successMsg =$createSuccessMsg =$createErrMsg = "";
 
+/**
+ * Methods to display error/success messages
+ */
 function e($msg) {
 	global $errorMsg;
 	$errorMsg = $msg;
@@ -30,17 +33,19 @@ include "header.php";
 
 // Get post values from login form, and pass to LoginController
 if( isset($_POST['submit_login'])) {
-	
+	// Create controller 
 	$loginCtl = new LoginController();
 	$un = $_POST['username'];
 	$pw = $_POST['password'];
 	
-	$loginCtl->logInUser($un, $pw); 
+	if($loginCtl->logInUser($un, $pw)) {
+		header("Location: index.php");
+	}
 }
 
 // Get post values from new user form, and pass to CreateUserCtl
 if ( isset($_POST['new_user'])) {
-	
+	// Create controller 
 	$createCtl = new CreateUserController();
 	$un = $_POST['username'];
 	$em = $_POST['email'];
@@ -49,7 +54,6 @@ if ( isset($_POST['new_user'])) {
 
 	$createCtl->createUserAccount($un, $em, $pw1, $pw2);
 }
-
 
 ?>
 
@@ -69,12 +73,11 @@ if ( isset($_POST['new_user'])) {
 		<label></label>
 		<input class="btn btn-xs btn-default pull-right" type="submit" name="submit_login" value="LogIn">
 	</div>
-	<div>
+	<p>
 		<p><small style="color:maroon;"><?PHP echo $errorMsg ?></small></p>
 		<p><small style="color:green;"><?PHP echo $successMsg ?></small></p>
-	</div>
+	<p>
 </form>
-
 
 
 <!-- Create User Form -->
@@ -101,10 +104,10 @@ if ( isset($_POST['new_user'])) {
 		<label></label>
 		<input class="btn btn-xs btn-default pull-right" type="submit" name="new_user" value="Create New User">
 	</div>
-	<div>
+	<p>
 		<p><small style="color:maroon;"><?PHP echo $createErrMsg ?></small></p>
 		<p><small style="color:green;"><?PHP echo $createSuccessMsg ?></small></p>
-	</div>
+	</p>
 </form>
 
 
@@ -113,8 +116,8 @@ if ( isset($_POST['new_user'])) {
 </html>
 
 <!-- Model - Data - User Object, Stored User Object -->
-<!-- View - index.php -->
-<!-- Controller - Logincontroller.php -->
+<!-- View - index.php, header.php, elsewhere.php -->
+<!-- Controller - Logincontroller.php, CreateUserController.php -->
 
 
 
